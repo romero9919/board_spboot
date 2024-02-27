@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" 
+    xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</head>
+<body>
+    <h1 class="text-center mb-5">게시판</h1>
+    <div class="row justify-content-center">
+        <table class="bbslist table-hover">
+            <colgroup>
+            <col width="10%">
+            <col>
+            <col width="15%">
+            <col width="15%"> 
+            <col width="10%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>날짜</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${boardList}">
+                    <td class="text-center"><span th:text="${board.num}"></span></td>
+                    <td class="title"><a th:href="@{'/post/' + ${board.num}}"><span th:text="${board.title}"></a></td>
+                    <td class="text-center"><span th:text="${board.writer}"></span></td>
+                    <td class="text-center"><span th:text="${board.wdate}"></span></td>
+                    <td class="text-center"><span th:text="${board.memoCount}"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-3 col-md-6">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNum : ${pageList}" th:inline="text">
+                        <a th:href="@{'/?page=' + ${pageNum}}" class="page-link">[[${pageNum}]]</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="/" class="btn btn-secondary mr-4">목록</a>
+                <a th:href="@{/post}" class="btn btn-secondary">글쓰기</a> 
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+</body>
+</html>
