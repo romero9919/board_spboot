@@ -33,7 +33,7 @@
                     <td class="text-center"><span th:text="${board.num}"></span></td>
                     <td class="title"><a th:href="@{'/post/' + ${board.num}}"><span th:text="${board.title}"></a></td>
                     <td class="text-center"><span th:text="${board.writer}"></span></td>
-                    <td class="text-center"><span th:text="${board.wdate}"></span></td>
+                    <td class="text-center"><span th:text="${#temporals.format(board.wdate, 'yyyy-MM-dd HH:mm')}"></span></td>
                     <td class="text-center"><span th:text="${board.memoCount}"></span></td>
                 </tr>
             </tbody>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-3 text-right">
                 <a href="/" class="btn btn-secondary mr-4">목록</a>
-                <a th:href="@{/post}" class="btn btn-secondary">글쓰기</a> 
+                <a th:href="@{/write}" class="btn btn-secondary">글쓰기</a> 
             </div>
         </div>
     </div>

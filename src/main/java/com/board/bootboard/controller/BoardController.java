@@ -3,9 +3,12 @@ package com.board.bootboard.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
 
 import com.board.bootboard.dto.BoardDto;
 import com.board.bootboard.service.BoardService;
+
+import java.util.*;
 
 import lombok.AllArgsConstructor;
 
@@ -15,17 +18,21 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping("/")
-    public String index(){
-        return "board/list.html";
+    public String index(Model model){
+        List<BoardDto> boardList = boardService.getBoardlist();
+        model.addAttribute("boardList", boardList);
+        return "index";
     }
 
-    @GetMapping("/post")
+    @GetMapping("/write")
     public String write(){
-        return "board/write.html";
+        return "write.html";
     }
 
-    @PostMapping("/post")
+
+    @PostMapping("/write")
     public String write(BoardDto boardDto){
+        System.out.println(boardDto.getTitle());
         boardService.savePost(boardDto);
 
         return "redirect:/";
