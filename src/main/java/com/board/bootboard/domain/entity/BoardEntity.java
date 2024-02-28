@@ -14,7 +14,7 @@ public class BoardEntity{
         
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long num;
+    private int num;
 
     @Column
     private int orNum;
@@ -28,10 +28,10 @@ public class BoardEntity{
     private int hit = 0;
     private int fileCount = 0;
     private int memoCount = 0;
-    private int imnum = 0;
+    private Long imnum;
 
     @Builder
-    public BoardEntity(Long num, int orNum, int grNum, int grLayer, String writer, String userid, String userpass, String title, String contents, int hit, int fileCount, int memoCount, int imnum) {
+    public BoardEntity(int num, int orNum, int grNum, int grLayer, String writer, String userid, String userpass, String title, String contents, int hit, int fileCount, int memoCount, Long imnum) {
         this.num = num;
         this.orNum = orNum;
         this.grNum = grNum;

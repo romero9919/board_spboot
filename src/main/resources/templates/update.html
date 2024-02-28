@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{../css/style.css}">
-    <link rel="stylesheet" th:href="@{../css/summernote-bs4.min.css}">
+    <link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{../../css/style.css}">
 </head>
 <body>
-
-    <h1 class="text-center mb-5">글쓰기</h1>
-    <form class="row was-validated" method="post" action="/write">
+    <h1 class="text-center mb-5">수정하기</h1>
+    <form class="row was-validated" method="post" th:action="@{'/post/edit/' + ${boardDto.num}}">
+        <input type="hidden" name="_method" value="put"/>
+        <input type="hidden" name="num" th:value="${boardDto.num}"/>
         <div class="col-md-6 my-3">
             <div class="row align-items-center">
             <label class="col-2" for="writer">이름</label>
             <div class="col-10">
                 <input type="text" name="writer" class="form-control"
-                placeholder="이름" id="writer" required />
+                placeholder="이름" id="writer" th:value="${boardDto.writer}" required />
             </div>    
             </div>       
         </div>
@@ -26,34 +26,34 @@
             <label class="col-2" for="userpass">비밀번호</label>
             <div class="col-10">
                 <input type="password" name="userpass" class="form-control"
-                placeholder="비밀번호" id="pass" required />
+                placeholder="비밀번호" id="pass" th:value="${boardDto.userpass}" required />
             </div>       
         </div>
         <div class="col-md-12 row align-items-center my-3">
-            <label class="col-md-1" for="title">제목</label>
+            <label class="col-md-1" for="title" >제목</label>
             <div class="col-md-11">
                 <input type="text" name="title" class="form-control"
-                placeholder="이름" id="title" required />
+                placeholder="이름" id="title" th:value="${boardDto.title}" required />
             </div>
         </div>
         <div class="col-md-12 row align-items-center my-3">
             <label class="col-md-1" for="contents">내용</label>
             <div class="col-md-11">
-            <textarea id="content" name="contents" class="form-control"></textarea>
+                <textarea id="content" name="contents" class="form-control" th:value="${boardDto.contents}"></textarea>
             </div>
         </div>      
         <div class="col-md-12 text-center my-3">
             <button type="reset" class="btn btn-danger mr-3"> 취 소 </button>
             <button type="submit" class="btn btn-secondary ml-3"> 전 송 </button>
         </div>  
-        <input type="hidden" name="userid" value="guest"/>
+        <input type="hidden" name="userid" th:value="${boardDto.userid}"/>
     </form>
-    <script th:src="@{../js/jquery.min.js}"></script>
-    <script th:src="@{../js/popper.min.js}"></script>
-    <script th:src="@{../js/bootstrap.min.js}"></script>
-    <script th:src="@{../js/custom.js}"></script>
-    <script th:src="@{../js/summernote-bs4.min.js}"></script>
-    <script th:src="@{../js/lang/summernote-ko-KR.min.js}"></script>
+    <script th:src="@{../../js/jquery.min.js}"></script>
+    <script th:src="@{../../js/popper.min.js}"></script>
+    <script th:src="@{../../js/bootstrap.min.js}"></script>
+    <script th:src="@{../../js/custom.js}"></script>
+    <script th:src="@{../../js/summernote-bs4.min.js}"></script>
+    <script th:src="@{../../js/lang/summernote-ko-KR.min.js}"></script>
     <script>
         $(function(){
             $("#content").summernote({

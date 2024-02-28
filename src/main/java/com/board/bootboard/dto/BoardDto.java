@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class BoardDto {
-    private Long num;
+    private int num;
     private int orNum;
     private int grNum;
     private int grLayer;
@@ -28,7 +28,7 @@ public class BoardDto {
     private LocalDateTime wdate;
     private int fileCount;
     private int memoCount;
-    private int imnum;
+    private Long imnum;
 
     public BoardEntity toEntity(){
         return BoardEntity.builder()
@@ -49,7 +49,7 @@ public class BoardDto {
     }
 
     @Builder
-    public BoardDto(Long num, int orNum, int grNum, int grLayer, String writer, String userid, String userpass, String title, String contents, int hit,LocalDateTime wdate, int fileCount, int memoCount, int imnum){
+    public BoardDto(int num, int orNum, int grNum, int grLayer, String writer, String userid, String userpass, String title, String contents, int hit,LocalDateTime wdate, int fileCount, int memoCount, Long imnum){
         this.num = num;
         this.orNum = orNum;
         this.grNum = grNum;

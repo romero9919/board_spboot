@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko" 
-    xmlns="http://www.thymeleaf.org">
+<html lang="ko" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{../css/style.css}">
 </head>
 <body>
-    <h1 class="text-center mb-5">{{title}}</h1>
+    <h1 class="text-center mb-5">게시판</h1>
     <div class="row flex-column view">
-        <div class="title py-3 pl-2">
-            제목을 이곳에 씁니다. 
-        </div>
+        <div class="title py-3 pl-2" th:text="${boardDto.title}"></div>
     </div>
     <div class="row view_info py-3">
         <div class="col-8 d-flex">  
-            <div class="date pr-5">2023.09.22</div>
-            <div class="write pr-5">홍길동</div>
-            <div class="hit">hit: 33</div>
+            <div class="date pr-5" th:text="${#temporals.format(boardDto.wdate, 'yyyy-MM-dd HH:mm')}"></div>
+            <div class="write pr-5" th:text="${boardDto.writer}"></div>
+            <div class="hit" th:text="${boardDto.hit}"></div>
         </div>
         <div class="col-4 sns text-right">
             <a href="#" class="mr-3"><i class="ri-instagram-line"></i></a>
@@ -29,22 +26,16 @@
         </div>   
     </div>
     <div class="content py-5">
-    <img src="images/404.jpg" alt="404" />
-    <p>무한한 우리는 그것을 많이 사는가 얼마나 아니한 설레는 것이다. 관현악이며, 내려온 가치를 없으면, 그들은 오아이스도 원질이 피가 끓는다. 꽃 이상을 실현에 사막이다. 모래뿐일 커다란 그들에게 얼음과 끝에 봄바람이다. 싹이 밝은 피가 심장은 아니한 유소년에게서 얼음과 있으며, 이것은 부패뿐이다. 고동을 방황하였으며, 되려니와, 사랑의 그것은 수 약동하다. 뜨거운지라, 전인 뛰노는 보는 황금시대의 사막이다. 청춘의 밝은 만물은 보내는 위하여 이 싹이 얼음이 것이다. 그들의 그들의 관현악이며, 약동하다.
-
-    </p><p>희망의 그들은 거선의 두기 이것이다. 황금시대의 피가 청춘 트고, 노래하며 얼음 싸인 옷을 사랑의 운다. 청춘 노년에게서 더운지라 두손을 같지 쓸쓸한 가는 동산에는 들어 것이다. 관현악이며, 하였으며, 아니한 있는 못하다 철환하였는가? 붙잡아 피가 불어 위하여서 가슴에 힘있다. 유소년에게서 뼈 풍부하게 영원히 착목한는 두기 긴지라 교향악이다. 능히 위하여 청춘의 같이, 운다. 되려니와, 그들의 돋고, 꽃이 현저하게 가지에 이것이다. 할지라도 못할 능히 예가 그것을 밝은 청춘을 일월과 것이다. 든 이것이야말로 그들은 같지 원질이 공자는 봄바람이다. 살 설산에서 자신과 얼마나 원대하고, 품으며, 것이다.
-
-    </p><p>청춘 불러 굳세게 몸이 그들의 이상은 용감하고 있을 위하여서. 것은 일월과 불러 봄바람이다. 커다란 옷을 이상의 유소년에게서 부패를 소리다.이것은 바로 있으랴? 스며들어 크고 영락과 관현악이며, 미묘한 유소년에게서 아름다우냐? 청춘 그들은 풍부하게 부패를 그들은 풀이 말이다. 원대하고, 그러므로 열락의 있는 이상의 이것은 청춘의 아름답고 것이다. 청춘을 우리의 사람은 인생에 없는 시들어 이상의 돋고, 힘있다. 능히 되려니와, 피는 것이다. 착목한는 위하여 같이, 할지니, 시들어 사막이다.
-    </p>  
+        <span th:text="${boardDto.contents}"></span>
     </div>
     <div class="row justify-content-end mb-5">
-        <a href="#" class="btn btn-dark text-white px-3 mr-3">답변</a>
-        <a href="#" class="btn btn-dark text-white px-3 mr-3">수정</a>
-        <button type="button" 
-                class="btn btn-dark text-white px-3 mr-3"
-                data-target="#delModal" data-toggle="modal"
-        >삭제</button>
-        <a href="#" class="btn btn-dark text-white px-3">목록</a>
+        <a th:href="@{'/post/edit/' + ${boardDto.num}}" class="btn btn-dark text-white px-3 mr-3">수정</a>
+        <form id="delete-form" th:action="@{'/post/' + ${boardDto.num}}" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit"
+                    class="btn btn-dark text-white px-3 mr-3">삭제</button>
+        </form>
+        <a th:href="@{'/'}" class="btn btn-dark text-white px-3">목록</a>
     </div>
 
     <div class="modal fade" role="dialog" 
@@ -75,9 +66,17 @@
             </div>
         </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script th:src="@{../js/jquery.min.js}"></script>
+    <script th:src="@{../js/popper.min.js}"></script>
+    <script th:src="@{../js/bootstrap.min.js}"></script>
+    <script th:src="@{../js/custom.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let boardDto = /*[[${boardDto}]]*/ "";
+        /*]]>*/
+
+        console.log(boardDto);
+    </script>
+    
 </body>
 </html>
