@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 import com.board.bootboard.dto.BoardDto;
@@ -21,9 +22,11 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping("/")
-    public String index(Model model){
-        List<BoardDto> boardList = boardService.getBoardlist();
+    public String index(Model model, @RequestParam(value="page", defaultValue = "1") Integer pageNum){
+        List<BoardDto> boardList = boardService.getBoardlist(pageNum);
+        Integer[] pageList = boardService.getPageList(pageNum);
         model.addAttribute("boardList", boardList);
+        model.addAttribute("pageList", pageList);
         return "index";
     }
 
@@ -68,5 +71,13 @@ public class BoardController {
         boardService.deletePost(no);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(value="keyword") String keyword, Model model){
+        List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
+
+        model.addAttribute("boardList", boardDtoList);
+        return "index";
     }
 }
