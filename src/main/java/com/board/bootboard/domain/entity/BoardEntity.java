@@ -14,11 +14,12 @@ public class BoardEntity{
         
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "num")
     private int num;
 
     @Column
     private int orNum;
-    private int grNum = 1;;
+    private int grNum = 1;
     private int grLayer = 0;
     private String writer;
     private String userid;

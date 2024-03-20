@@ -17,4 +17,8 @@ public abstract class TimeEntity {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime wdate;
+
+    // @CreatedDate
+    // @Column(updatable = false)
+    // private LocalDateTime cdate;
 }

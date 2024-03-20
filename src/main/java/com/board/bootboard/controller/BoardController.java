@@ -45,6 +45,7 @@ public class BoardController {
     public String detail(@PathVariable("no")Integer no, Model model){
         BoardDto boardDTO = boardService.getPost(no);
         model.addAttribute("boardDto", boardDTO);
+
         return "view";
     }
 
@@ -56,6 +57,7 @@ public class BoardController {
         return "update";
     }
 
+    // post ud
     @PutMapping("/post/edit/{no}")
     public String update(BoardDto boardDTO){
         boardService.savePost(boardDTO);
@@ -69,4 +71,5 @@ public class BoardController {
 
         return "redirect:/";
     }
+
 }
