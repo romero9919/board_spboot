@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{../css/style.css}">
 </head>
 <body>
+<div class="container md-5">
     <h1 class="text-center mb-5">게시판</h1>
     <div class="row flex-column view">
         <div class="title py-3 pl-2" th:text="${boardDto.title}"></div>
@@ -66,7 +67,51 @@
             </div>
         </div>
     </div>
+    <div class="row mt-5">
+        <ul class="list-group w-100">
+            <li class="list-group-item d-flex p-4" th:each="comments : ${commentList}">
+                <div class="col-2">
+                   <h3 th:text="${comments.username}"> <small th:text="${comments.cdate}"></small></h3>
+                </div>
+                <div class="col-9" th:text="${comments.comment}">
+                      
+                 </div>
+                <div class="col-1 text-right">
+                    <form id="comment-delete-form" th:action="@{'/post/comment/' + ${comments.num}}" method="post">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button 
+                        class="btn btn-sm btn-danger text-white"
+                        type="submit"
+                        >삭제</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
 
+    <form name="commentForm" id="comment_form" method="post" action="/writecomment">
+         <input type="hidden" name="ndboardNum" th:value="${boardDto.num}" />
+            <div class="row mt-5">
+                <div class="col-3">
+                    <label>이름</label>
+                    <input type="text" name="username" class="form-control" /> 
+                </div>
+                <div class="col-3">
+                    <label>비밀번호</label>
+                    <input type="password" name="userpass" class="form-control" />
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-10"> 
+                   <textarea id="memo-content" name="comment" class="form-control"></textarea>
+                </div>
+                <div class="col-2">
+                   <button type="submit" class="btn btn-comment">전송</button> 
+                </div>
+            </div>
+            <input type="hidden" name="userid" value="guest"/>
+    </form>
+</div>
     
     <script th:src="@{../js/jquery.min.js}"></script>
     <script th:src="@{../js/popper.min.js}"></script>

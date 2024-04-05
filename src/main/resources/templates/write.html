@@ -55,13 +55,66 @@
     <script th:src="@{../js/summernote-bs4.min.js}"></script>
     <script th:src="@{../js/lang/summernote-ko-KR.min.js}"></script>
     <script>
+
         $(function(){
             $("#content").summernote({
                 tabsize: 2,
                 height:300,
-                lang:"ko-KR"
+                lang:"ko-KR",
+                callbacks: {
+                   onImageUpload: function(files) {
+                      //업로드 파일 등록
+                      upFile(files[0], this);
+                   },
+                   onMediaDelete: function(file) {  //파일 삭제
+                     // alert(file[0].src);
+                     delFile(file[0].src);
+                   }
+                }
             });
         });
+    
+        function delFile(file){
+          $.ajax({
+             data: { src : file },
+             type: "POST",
+             url: "/write/imgdelete",
+             cache: false,
+             success: function(rs){
+                 console.log(rs);
+             }
+          })
+        }
+    
+        function upFile(file, editor) {
+            data = new FormData();
+            const imnum = $('#imnum').val();
+            data.append("img", file); 
+            data.append("imnum", imnum);
+            $.ajax({
+                url: "/write/imginsert",
+                type: "POST",
+                cache: false,
+                contentType: false,
+                
+                enctype: "multipart/form-data",
+                processData: false,
+                data: data,
+                success: function(res){
+                    console.log(res);
+                    $("#imnum").val(res.imnum);
+                    const imgurl = $("<img>").attr({
+                        'src': "/images/"+res.imgurl, 
+                        'crossorigin': 'anonymous' 
+                    });
+                    $("#content").summernote("insertNode", imgurl[0]);
+                    
+                },
+                error: function(err){
+                    console.error(err);
+                }
+            })
+        }
     </script>
 </body>
 </html>
