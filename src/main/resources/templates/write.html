@@ -10,111 +10,132 @@
     <link rel="stylesheet" th:href="@{../css/summernote-bs4.min.css}">
 </head>
 <body>
-
-    <h1 class="text-center mb-5">글쓰기</h1>
-    <form class="row was-validated" method="post" action="/write">
-        <div class="col-md-6 my-3">
-            <div class="row align-items-center">
-            <label class="col-2" for="writer">이름</label>
-            <div class="col-10">
-                <input type="text" name="writer" class="form-control"
-                placeholder="이름" id="writer" required />
-            </div>    
-            </div>       
-        </div>
-        <div class="col-md-6 row align-items-center my-3">
-            <label class="col-2" for="userpass">비밀번호</label>
-            <div class="col-10">
-                <input type="password" name="userpass" class="form-control"
-                placeholder="비밀번호" id="pass" required />
-            </div>       
-        </div>
-        <div class="col-md-12 row align-items-center my-3">
-            <label class="col-md-1" for="title">제목</label>
-            <div class="col-md-11">
-                <input type="text" name="title" class="form-control"
-                placeholder="이름" id="title" required />
+    <div class="container">
+        <h1 class="text-center mb-5">글쓰기</h1>
+        <form class="row was-validated" method="post" action="/write">
+            <div class="col-md-6 my-3">
+                <div class="row align-items-center">
+                <label class="col-2" for="writer">이름</label>
+                <div class="col-10">
+                    <input type="text" name="writer" class="form-control"
+                    placeholder="이름" id="writer" required />
+                </div>    
+                </div>       
             </div>
-        </div>
-        <div class="col-md-12 row align-items-center my-3">
-            <label class="col-md-1" for="contents">내용</label>
-            <div class="col-md-11">
-            <textarea id="content" name="contents" class="form-control"></textarea>
+            <div class="col-md-6 row align-items-center my-3">
+                <label class="col-2" for="userpass">비밀번호</label>
+                <div class="col-10">
+                    <input type="password" name="userpass" class="form-control"
+                    placeholder="비밀번호" id="pass" required />
+                </div>       
             </div>
-        </div>      
-        <div class="col-md-12 text-center my-3">
-            <button type="reset" class="btn btn-danger mr-3"> 취 소 </button>
-            <button type="submit" class="btn btn-secondary ml-3"> 전 송 </button>
-        </div>  
-        <input type="hidden" name="userid" value="guest"/>
-    </form>
+            <div class="col-md-12 row align-items-center my-3">
+                <label class="col-md-1" for="title">제목</label>
+                <div class="col-md-11">
+                    <input type="text" name="title" class="form-control"
+                    placeholder="이름" id="title" required />
+                </div>
+            </div>
+            <div class="col-md-12 row align-items-center my-3">
+                <label class="col-md-1" for="contents">내용</label>
+                <div class="col-md-11">
+                <textarea id="content" name="contents" class="form-control"></textarea>
+                </div>
+            </div>      
+            <div class="col-md-12 text-center my-3">
+                <button id="cancel" type="reset" class="btn btn-danger mr-3"> 취 소 </button>
+                <button type="submit" class="btn btn-secondary ml-3"> 전 송 </button>
+            </div>  
+            <input type="hidden" name="userid" value="guest"/>
+        </form>
+    </div>
     <script th:src="@{../js/jquery.min.js}"></script>
     <script th:src="@{../js/popper.min.js}"></script>
     <script th:src="@{../js/bootstrap.min.js}"></script>
-    <script th:src="@{../js/custom.js}"></script>
     <script th:src="@{../js/summernote-bs4.min.js}"></script>
     <script th:src="@{../js/lang/summernote-ko-KR.min.js}"></script>
     <script>
 
-        $(function(){
-            $("#content").summernote({
-                tabsize: 2,
-                height:300,
-                lang:"ko-KR",
-                callbacks: {
-                   onImageUpload: function(files) {
-                      //업로드 파일 등록
-                      upFile(files[0], this);
-                   },
-                   onMediaDelete: function(file) {  //파일 삭제
-                     // alert(file[0].src);
-                     delFile(file[0].src);
-                   }
-                }
-            });
+        // 임시
+        $('#content').summernote({
+            tabsize: 2,
+            height:300,
+            lang:"ko-KR",
+            toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']]
+        ]
         });
+
+        $('#cancel').click(function(){
+            location.href = '/';
+        });
+
+        // $(function(){
+        //     $("#content").summernote({
+        //         tabsize: 2,
+        //         height:300,
+        //         lang:"ko-KR",
+        //         callbacks: {
+        //            onImageUpload: function(files) {
+        //               //업로드 파일 등록
+        //               upFile(files[0], this);
+        //            },
+        //            onMediaDelete: function(file) {  //파일 삭제
+        //              // alert(file[0].src);
+        //              delFile(file[0].src);
+        //            }
+        //         }
+        //     });
+        // });
     
-        function delFile(file){
-          $.ajax({
-             data: { src : file },
-             type: "POST",
-             url: "/write/imgdelete",
-             cache: false,
-             success: function(rs){
-                 console.log(rs);
-             }
-          })
-        }
+        // function delFile(file){
+        //   $.ajax({
+        //      data: { src : file },
+        //      type: "POST",
+        //      url: "/write/imgdelete",
+        //      cache: false,
+        //      success: function(rs){
+        //          console.log(rs);
+        //      }
+        //   })
+        // }
     
-        function upFile(file, editor) {
-            data = new FormData();
-            const imnum = $('#imnum').val();
-            data.append("img", file); 
-            data.append("imnum", imnum);
-            $.ajax({
-                url: "/write/imginsert",
-                type: "POST",
-                cache: false,
-                contentType: false,
+        // function upFile(file, editor) {
+        //     data = new FormData();
+        //     const imnum = $('#imnum').val();
+        //     data.append("img", file); 
+        //     data.append("imnum", imnum);
+        //     $.ajax({
+        //         url: "/write/imginsert",
+        //         type: "POST",
+        //         cache: false,
+        //         contentType: false,
                 
-                enctype: "multipart/form-data",
-                processData: false,
-                data: data,
-                success: function(res){
-                    console.log(res);
-                    $("#imnum").val(res.imnum);
-                    const imgurl = $("<img>").attr({
-                        'src': "/images/"+res.imgurl, 
-                        'crossorigin': 'anonymous' 
-                    });
-                    $("#content").summernote("insertNode", imgurl[0]);
+        //         enctype: "multipart/form-data",
+        //         processData: false,
+        //         data: data,
+        //         success: function(res){
+        //             console.log(res);
+        //             $("#imnum").val(res.imnum);
+        //             const imgurl = $("<img>").attr({
+        //                 'src': "/images/"+res.imgurl, 
+        //                 'crossorigin': 'anonymous' 
+        //             });
+        //             $("#content").summernote("insertNode", imgurl[0]);
                     
-                },
-                error: function(err){
-                    console.error(err);
-                }
-            })
-        }
+        //         },
+        //         error: function(err){
+        //             console.error(err);
+        //         }
+        //     })
+        // }
     </script>
+    <script th:src="@{../js/custom.js}"></script>
 </body>
 </html>

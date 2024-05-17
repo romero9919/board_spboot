@@ -43,7 +43,7 @@
             </div>
         </div>      
         <div class="col-md-12 text-center my-3">
-            <button type="reset" class="btn btn-danger mr-3"> 취 소 </button>
+            <button id="cancel" type="reset" class="btn btn-danger mr-3"> 취 소 </button>
             <button type="submit" class="btn btn-secondary ml-3"> 전 송 </button>
         </div>  
         <input type="hidden" name="userid" th:value="${boardDto.userid}"/>
@@ -51,17 +51,31 @@
     <script th:src="@{../js/jquery.min.js}"></script>
     <script th:src="@{../js/popper.min.js}"></script>
     <script th:src="@{../js/bootstrap.min.js}"></script>
-    <script th:src="@{../js/custom.js}"></script>
     <script th:src="@{../js/summernote-bs4.min.js}"></script>
     <script th:src="@{../js/lang/summernote-ko-KR.min.js}"></script>
+    <script th:src="@{../js/custom.js}"></script>
     <script>
-        $(function(){
-            $("#content").summernote({
-                tabsize: 2,
-                height:300,
-                lang:"ko-KR"
-            });
+
+
+       $('#content').summernote({
+            tabsize: 2,
+            height:300,
+            lang:"ko-KR",
+            toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']]
+            ]
         });
+
+        $('#cancel').click(function(){
+            location.href = '/';
+        });
+
     </script>
 </body>
 </html>
